@@ -14,6 +14,14 @@ utilization of multiprocessor architectures - threads may be running in parallel
 												on different processors, multithreading
 												increase concurrency
 
+
+mutex
+Mutex is the short form for ‘Mutual Exclusion object’. 
+A mutex allows multiple threads for sharing the same resource
+Mutex take value 0 and 1. A mutex can be unlocked only by the 
+thread that locked it. Thus a mutex has an owner concept.
+
+
 dining philosopher problem
 philosopher need to eat, think and sleep
 
@@ -91,3 +99,19 @@ do {
 deadlock - all five philosophers become hungry simulateneusly
 and grabs their left fork. No more fork left. When each philosopher
 tries to grab his right fork, he will delayed forever.
+
+
+Flow chart
+start -> parse input -> create mutex fork (pthread_mutex_init)
+
+-> create number of fork based on philo no. 
+
+-> create new philo (assign all value then pthread_create, pass simulation)
+
+-> create philo based on number on philo
+
+-> delete all philo (pthread_join), free
+
+-> delete all mutex fork (pthread_mutex_destroy), free
+
+-> end
