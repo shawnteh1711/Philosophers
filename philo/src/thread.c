@@ -6,28 +6,25 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:04:35 by steh              #+#    #+#             */
-/*   Updated: 2022/06/01 21:09:36 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/02 17:03:58 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philos.h"
 
-void	ft_crt_th(t_info *info)
+void	ft_crt_ths(t_info *info)
 {
 	int		i;
 
-	i = 0;
-	info->phil = malloc(sizeof(t_phil *) * info->n_phi);
+	i = -1;
+	info->phil = malloc(sizeof(t_phil) * info->n_phi);
 	if (!info->phil)
 		return ;
-	while (i < info->n_phi)
-	{
-		ft_new_philo(i, info);
-		i++;
-	}
+	while (++i < info->n_phi)
+		ft_crt_th(i, info);
 }
 
-void	ft_new_philo(int i, t_info *info)
+void	ft_crt_th(int i, t_info *info)
 {
 	t_phil	*phil;
 
@@ -36,8 +33,9 @@ void	ft_new_philo(int i, t_info *info)
 	phil[i].stat = THK;
 	phil[i].l_eat = 0;
 	phil[i].c_eat = info->c_eat;
-	phil[i].l_fork = phil[i].l_fork;
-	phil[i].r_fork = phil[(i + 1) % (info->n_phi)].l_fork;
+	phil[i].l_fork = info->fork[i];
+	phil[i].r_fork = info->fork[(i + 1) % info->n_phi];
+	// printf("philo: %d\n l_fork: %p\t r_fork: %p\n", i, &phil[i].l_fork, &phil[i].r_fork);
 	if (pthread_create(&(phil[i].thd), NULL, ft_routine, &info->phil[i]) != 0)
 	{
 		printf("thread create error\n");
@@ -46,12 +44,20 @@ void	ft_new_philo(int i, t_info *info)
 
 void	*ft_routine(void *arg)
 {
-	long	time;
+	long long	time;
+	t_phil		*phil;
 
-	time = ft_get_time();
-	
-	printf("hi\n");
-	usleep(10);
-	printf("bye\n");
+	phil = (t_phil *) arg;
+	if (phil->id % 2 == 0)
+		usleep(phil->info.t_eat);
+	while (phil->stat != DIE)
+	{
+		time = ft_cur_time();
+		ft_take_fork(phil, time);
+		ft_eat(phil, time);
+		ft_slp(phil, time);
+		ft_thk(phil, time);
+		ft_die(phil, time);
+	}
 	return (NULL);
 }
