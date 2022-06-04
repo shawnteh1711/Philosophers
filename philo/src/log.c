@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   log.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 12:05:32 by steh              #+#    #+#             */
-/*   Updated: 2022/06/04 21:21:23 by steh             ###   ########.fr       */
+/*   Created: 2022/06/04 13:43:09 by steh              #+#    #+#             */
+/*   Updated: 2022/06/04 14:15:32 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philos.h"
 
-// algo: parse, create thread & mutex, dextroy thread & mutex
-int	main(int ac, char **av)
+void	ft_log_fork(t_phil *phil, long long time)
 {
-	t_info	info;
-	t_fork	fork;
-
-	if (ft_parse(--ac, ++av, &info) == -1)
-		return (1);
-	ft_crt_mts(&info);
-	ft_crt_ths(&info);
-	// ft_del_mtx();
-	ft_del_th(&info);
-	return (0);
+	printf("%lld %d has taken a fork\n", time, phil->id);
 }

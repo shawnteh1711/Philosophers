@@ -53,6 +53,7 @@ typedef	struct s_phil
 	t_fork		r_fork;
 	int			c_eat;
 	long long	l_eat;
+	long long	l_slp;
 	// pthread_mutex_t		*n_fork;
 	// pthread_mutex_t		fork;
 }	t_phil;
@@ -67,6 +68,7 @@ int			ft_atoi(const char *str);
 void		ft_crt_ths(t_info *info);
 void		ft_crt_th(int i, t_info *info);
 void		*ft_routine(void *arg);
+void		ft_del_th(t_info *info);
 
 // mutex
 void		ft_crt_mts(t_info *info);
@@ -79,9 +81,12 @@ long long	ft_t_stamp(long long msec);
 
 // task
 void		ft_take_fork(t_phil *phil, long long time);
-void		ft_log_fork(t_phil *phil, long long time);
 void		ft_eat(t_phil *phil, long long time);
 void		ft_slp(t_phil *phil, long long time);
 void		ft_thk(t_phil *phil, long long time);
 void		ft_die(t_phil *phil, long long time);
+
+// log
+void		ft_log_fork(t_phil *phil, long long time);
+
 # endif
