@@ -13,11 +13,18 @@
 #ifndef PHILOS_H
 # define PHILOS_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <sys/time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
+
+# define RED "\033[0;31m"
+# define GRN "\e[0;32m"
+# define YEL "\e[0;33m"
+# define BLU "\e[0;34m"
+# define RST "\033[0m"
+# define CYN "\033[0;36m"
 
 typedef enum s_stat
 {
@@ -74,13 +81,13 @@ void		ft_del_th(t_info *info);
 void		ft_crt_mts(t_info *info);
 void		ft_get_fork(t_phil *phil);
 void		ft_rel_fork(t_phil *phil);
+void		ft_del_mtx(t_info *info);
 
 // time
 long long	ft_cur_time(void);
 long long	ft_t_stamp(long long msec);
 
 // task
-void		ft_take_fork(t_phil *phil, long long time);
 void		ft_eat(t_phil *phil, long long time);
 void		ft_slp(t_phil *phil, long long time);
 void		ft_thk(t_phil *phil, long long time);
@@ -88,5 +95,6 @@ void		ft_die(t_phil *phil, long long time);
 
 // log
 void		ft_log_fork(t_phil *phil, long long time);
+void		ft_mslp(t_phil *phil);
 
 # endif

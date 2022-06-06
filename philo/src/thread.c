@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:04:35 by steh              #+#    #+#             */
-/*   Updated: 2022/06/04 21:28:29 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/06 14:37:40 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,30 +50,23 @@ void	*ft_routine(void *arg)
 {
 	long long	time;
 	t_phil		*phil;
-	t_info		*info;
+	int			i;
 
+	i = 0;
 	phil = (t_phil *) arg;
 	if (phil->id % 2 == 0)
 		usleep(phil->info.t_eat);
-	// printf("t_die: %d\n", phil->info.t_die);
-	// printf("t_eat: %d\n", phil->info.t_eat);
-	// printf("t_slp: %d\n", phil->info.t_slp);
-	// printf("c_eat: %d\n", phil->c_eat);
-	while (phil->stat != DIE)
+	while (i < 1)
 	{
 		time = ft_cur_time();
-		if (time > phil->l_eat + phil->info.t_die)
-			ft_die(phil, time);
-		else if (phil->stat == EAT
-			&& time > phil->l_eat + phil->info.t_eat)
-			ft_slp(phil, time);
-		else if (phil->stat == SLP
-			&& time > phil->l_slp + phil->info.t_slp)
-			ft_thk(phil, time);
-		else if (phil->stat == THK)
-			ft_eat(phil, time);
-		else
-			usleep(50);
+		ft_thk(phil, time);
+		ft_get_fork(phil);
+		ft_eat(phil, time);
+		ft_rel_fork(phil);
+		ft_slp(phil, time);
+		// if (time > phil->l_eat + phil->info.t_die)
+		// 	ft_die(phil, time);
+		i++;
 	}
 	return (NULL);
 }
@@ -83,13 +76,10 @@ void	ft_del_th(t_info *info)
 	int	i;
 
 	i = 0;
-	while (i > info->n_phi)
+	while (i < info->n_phi)
 	{
-		if (info->phil != NULL)
-		{
+		if (info->phil != NULL || info->phil->stat == DIE)
 			pthread_join(info->phil[i].thd, NULL);
-			free(info->phil);
-		}
 		i++;
 	}
 }
