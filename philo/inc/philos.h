@@ -86,15 +86,13 @@ void		ft_del_mtx(t_info *info);
 // time
 long long	ft_cur_time(void);
 long long	ft_t_stamp(long long msec);
+void		ft_ms_slp(int msec);
 
 // task
 void		ft_eat(t_phil *phil, long long time);
 void		ft_slp(t_phil *phil, long long time);
 void		ft_thk(t_phil *phil, long long time);
 void		ft_die(t_phil *phil, long long time);
-
-// log
 void		ft_log_fork(t_phil *phil, long long time);
-void		ft_mslp(t_phil *phil);
 
 # endif

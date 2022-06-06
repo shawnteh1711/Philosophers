@@ -6,11 +6,14 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:04:35 by steh              #+#    #+#             */
-/*   Updated: 2022/06/06 14:37:40 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/06 19:20:03 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philos.h"
+
+void		ft_ms_slp(int msec);
+
 
 void	ft_crt_ths(t_info *info)
 {
@@ -55,17 +58,20 @@ void	*ft_routine(void *arg)
 	i = 0;
 	phil = (t_phil *) arg;
 	if (phil->id % 2 == 0)
-		usleep(phil->info.t_eat);
-	while (i < 1)
+		ft_ms_slp(phil->info.t_eat);
+	// while (phil->stat != DIE)
+	// while (phil->c_eat != 0)
+	while (i < 5)
 	{
 		time = ft_cur_time();
-		ft_thk(phil, time);
-		ft_get_fork(phil);
-		ft_eat(phil, time);
-		ft_rel_fork(phil);
-		ft_slp(phil, time);
-		// if (time > phil->l_eat + phil->info.t_die)
-		// 	ft_die(phil, time);
+		if (time > phil->l_eat + phil->info.t_die)
+			ft_die(phil, time);
+		else if (phil->stat == EAT)
+			ft_slp(phil, time);
+		else if (phil->stat == SLP)
+			ft_thk(phil, time);
+		else if (phil->stat == THK)
+			ft_eat(phil, time);
 		i++;
 	}
 	return (NULL);
@@ -78,7 +84,7 @@ void	ft_del_th(t_info *info)
 	i = 0;
 	while (i < info->n_phi)
 	{
-		if (info->phil != NULL || info->phil->stat == DIE)
+		if (info->phil != NULL)
 			pthread_join(info->phil[i].thd, NULL);
 		i++;
 	}

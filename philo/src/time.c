@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 21:11:02 by steh              #+#    #+#             */
-/*   Updated: 2022/06/06 13:38:15 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/06 19:08:46 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ long long	ft_cur_time(void)
 	sec = tv.tv_sec;
 	u_sec = tv.tv_usec;
 	msec = (sec * 1000) + (u_sec / 1000);
-	return (msec);
-	// return (ft_t_stamp(msec));
+	return (ft_t_stamp(msec));
 }
 
 long long	ft_t_stamp(long long msec)
@@ -42,5 +41,10 @@ long long	ft_t_stamp(long long msec)
 	}
 	else
 		return (msec - t_start);
+}
+
+void	ft_ms_slp(int msec)
+{
+	usleep(msec * 1000);
 }
 	
