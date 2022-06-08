@@ -47,7 +47,7 @@ typedef struct s_info
 
 typedef struct s_fork
 {
-	pthread_mutex_t	mtx;
+	pthread_mutex_t	*mtx;
 }	t_fork;
 
 typedef	struct s_phil
@@ -55,7 +55,7 @@ typedef	struct s_phil
 	int			id;
 	pthread_t	thd;
 	t_stat		stat;
-	t_info		info;
+	t_info		*info;
 	t_fork		l_fork;
 	t_fork		r_fork;
 	int			c_eat;
@@ -79,7 +79,8 @@ void		ft_del_th(t_info *info);
 
 // mutex
 void		ft_crt_mts(t_info *info);
-void		ft_get_fork(t_phil *phil);
+// void		ft_get_fork(t_phil *phil);
+void		ft_get_fork2(t_phil *phil, t_info *info);
 void		ft_rel_fork(t_phil *phil);
 void		ft_del_mtx(t_info *info);
 
