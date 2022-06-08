@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:05:32 by steh              #+#    #+#             */
-/*   Updated: 2022/06/07 16:11:28 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/08 19:41:04 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@
 int	main(int ac, char **av)
 {
 	t_info	info;
-	t_fork	fork;
 
 	if (ft_parse(--ac, ++av, &info) == -1)
 		return (1);
 	ft_crt_mts(&info);
 	ft_crt_ths(&info);
-	ft_del_mtx(&info);
 	ft_del_th(&info);
+	ft_del_mtx(&info);
 	// system("leaks philo");
 	return (0);
 }
