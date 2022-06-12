@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 16:07:31 by steh              #+#    #+#             */
-/*   Updated: 2022/06/06 14:40:15 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/12 23:10:24 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	ft_parse(int ac, char **av, t_info *info)
 	if (ft_n_arg(ac) == -1)
 		return (-1);
 	info->n_phi = ft_atoi(av[0]);
-	info->t_die = ft_atoi(av[1]);
-	info->t_eat = ft_atoi(av[2]);
-	info->t_slp = ft_atoi(av[3]);
+	info->t_die = ft_atoi(av[1]) * 1000;
+	info->t_eat = ft_atoi(av[2]) * 1000;
+	info->t_slp = ft_atoi(av[3]) * 1000;
 	if (ac == 5)
 		info->c_eat = ft_atoi(av[4]);
 	else

@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 13:20:49 by steh              #+#    #+#             */
-/*   Updated: 2022/06/08 21:05:52 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/12 23:01:36 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,7 @@
 // get fork by pthread mutex lock
 void	ft_log_fork(t_phil *phil, long long time)
 {
-	printf(CYN "%lld %d has taken a fork\n" RST, time, phil->id);
-}
-
-void	ft_log_down_fork(t_phil *phil, long long time)
-{
-	printf(CYN "%lld %d has unlock a fork\n" RST, time, phil->id);
+	printf(CYN "%lld %d has taken a fork\n" RST, time / 1000, phil->id);
 }
 
 void	ft_eat(t_phil *phil, long long time)
@@ -28,41 +23,44 @@ void	ft_eat(t_phil *phil, long long time)
 	t_info	*info;
 
 	info = phil->info;
-	// printf("phil->id: %d phil->l_fork: %p, phil->r_fork: %p\n", phil->id, phil->l_fork.mtx, phil->r_fork.mtx);
 	if (phil->l_fork->mtx == phil->r_fork->mtx)
-	{
-		// printf("same fork");
 		return ;
+	if (phil->id % 2 == 1 && time < info->t_eat)
+		return ;
+	if (phil->l_eat != 0)
+	{
+		if (info->n_phi % 2 == 0
+			&& time <= phil->l_eat + 2 * info->t_eat)
+			return ;
+		else if (info->n_phi % 2 == 1
+			&& time <= phil->l_eat + 3 * info->t_eat)
+			return ;
 	}
 	ft_get_fork(phil);
-	printf(GRN "%lld %d is eating\n" RST, time, phil->id);
-	// ft_ms_slp(phil->info->t_eat);
+	printf(GRN "%lld %d is eating\n" RST, time / 1000, phil->id);
 	phil->stat = EAT;
-	phil->l_eat = time;
+	phil->l_eat = ft_cur_time();
 	if (phil->c_eat > 0)
 		phil->c_eat--;
 	ft_rel_fork(phil);
-
 }
 
 void	ft_slp(t_phil *phil, long long time)
 {
 	phil->stat = SLP;
-	printf(BLU "%lld %d is sleeping\n" RST, ft_cur_time(), phil->id);
-	// ft_ms_slp(phil->info->t_slp);
-	phil->l_slp = ft_cur_time();
-	// printf("c_eat: %d\n", phil->c_eat);
+	printf(BLU "%lld %d is sleeping\n" RST, time / 1000, phil->id);
+	phil->l_slp = time;
 }
 
 void	ft_thk(t_phil *phil, long long time)
 {
 	phil->stat = THK;
-	printf(YEL "%lld %d is thinking\n" RST, ft_cur_time(), phil->id);
-	// ft_ms_slp(200);
+	printf(YEL "%lld %d is thinking\n" RST, time / 1000, phil->id);
 }
 
 void	ft_die(t_phil *phil, long long time)
 {
 	phil->stat = DIE;
-	printf(RED "%lld %d die\n" RST, time, phil->id);
+	phil->info->stat = DIE;
+	printf(RED "%lld %d die\n" RST, time / 1000, phil->id);
 }

@@ -74,16 +74,6 @@ called thread is finished executing it's task
 6. pthread_mutex_destroy (ptr to thread)
 7. pthread_exit(NULL)
 
-
-BONUS
-
-fork is representing with semaphore
-a philosopher try to grab fork by wait() on that semaphore
-a philosopher release fork by signal() on that semaphore
-semaphore fork[5]
-semaphore initialize to 1 mean free
-semaphore initialize to 0 mean not free
-
 do {
 	wait (fork[i]);
 	wait (fork[(i + 1) % 5]);  // to handle last philosopher
@@ -100,7 +90,6 @@ deadlock - all five philosophers become hungry simulateneusly
 and grabs their left fork. No more fork left. When each philosopher
 tries to grab his right fork, he will delayed forever.
 
-
 Flow chart
 start -> parse input -> create mutex fork (pthread_mutex_init)
 
@@ -115,3 +104,30 @@ start -> parse input -> create mutex fork (pthread_mutex_init)
 -> delete all mutex fork (pthread_mutex_destroy), free
 
 -> end
+
+
+BONUS
+
+fork is representing with semaphore
+a philosopher try to grab fork by wait() on that semaphore
+a philosopher release fork by signal() on that semaphore
+semaphore fork[5]
+semaphore initialize to 1 mean free
+semaphore initialize to 0 mean not free
+A semaphore is an integer whose value is never allowed to fall
+below zero.  Two operations can be performed on semaphores:
+increment the semaphore value by one (sem_post(3)); and decrement
+the semaphore value by one (sem_wait(3)).  If the value of a
+semaphore is currently zero, then a sem_wait(3) operation will
+block until the value becomes greater than zero.
+
+function
+1. sem_t *sem_open(const char *name, int oflag, mode_t mode, unsigned int value)
+2. int sem_wait(sem_t *sem) - decrements (locks) the semaphore pointed to by sem.
+3. int sem_post(sem_t *sem) - increments (unlocks) the semaphore pointed to by aem.
+4. int sem_close(sem_t *sem) - close the semaphore
+5. int sem_unlink(const char *name) - when all process have finished using the semaphore, it can removed
+				from system using sem_unlink().
+
+
+

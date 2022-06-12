@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:04:35 by steh              #+#    #+#             */
-/*   Updated: 2022/06/08 21:02:20 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/12 22:49:19 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_crt_th(int i, t_info *info)
 	phil[i].l_slp = 0;
 	phil[i].c_eat = info->c_eat;
 	phil[i].info = info;
+	phil[i].info->stat = THK;
 	phil[i].l_fork = &info->fork[i];
 	phil[i].r_fork = &info->fork[(i + 1) % info->n_phi];
 	if (pthread_create(&(phil[i].thd), NULL, ft_routine, &info->phil[i]) != 0)
@@ -47,15 +48,9 @@ void	*ft_routine(void *arg)
 {
 	long long	time;
 	t_phil		*phil;
-	int			i;
 
-	i = 0;
 	phil = (t_phil *) arg;
-	if (phil->id % 2 == 0)
-		ft_ms_slp(phil->info->t_eat);
-	while (phil->stat != DIE && phil->c_eat != 0)
-	// while (phil->c_eat != 0)
-	// while (i < 3)
+	while (phil->info->stat != DIE && phil->c_eat != 0)
 	{
 		time = ft_cur_time();
 		if (time > phil->l_eat + phil->info->t_die)
@@ -68,14 +63,8 @@ void	*ft_routine(void *arg)
 			ft_thk(phil, time);
 		else if (phil->stat == THK)
 			ft_eat(phil, time);
-
-		// time = ft_cur_time();
-		// ft_eat(phil, time);
-		// ft_slp(phil, time);
-		// ft_thk(phil, time);
-		// if (time > phil->l_eat + phil->info->t_die)
-		// 	ft_die(phil, time);
-		i++;
+		else
+			usleep(50);
 	}
 	return (NULL);
 }
@@ -88,6 +77,8 @@ void	ft_del_th(t_info *info)
 	while (++i < info->n_phi)
 	{
 		if (info->phil != NULL)
+		{
 			pthread_join(info->phil[i].thd, NULL);
+		}
 	}
 }
