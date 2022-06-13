@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   semaphore.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 12:05:32 by steh              #+#    #+#             */
-/*   Updated: 2022/06/13 21:56:52 by steh             ###   ########.fr       */
+/*   Created: 2022/06/13 20:30:57 by steh              #+#    #+#             */
+/*   Updated: 2022/06/13 21:18:09 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philos_b.h"
 
-int	main(int ac, char **av)
+void	ft_crt_sem(t_info *info)
 {
-	t_info	info;
-
-	if (ft_parse(--ac, ++av, &info) == -1)
-		return (1);
-	ft_crt_sem(&info);
-	ft_crt_pids(&info);
-	// ft_del_pid(&info);
-	// ft_del_sem(&info);
-	return (0);
+	info->sem = sem_open("fork", O_CREAT, 0644, info->n_phi);
+	if (info->sem == SEM_FAILED)
+	{
+		printf("Semaphore error\n");
+		exit(EXIT_FAILURE);
+	}
 }

@@ -10,14 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILOS_H
-# define PHILOS_H
+#ifndef PHILOS_B_H
+# define PHILOS_B_H
 
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <semaphore.h>
 
 # define RED "\033[0;31m"
 # define GRN "\e[0;32m"
@@ -44,18 +45,20 @@ typedef struct s_info
 	t_stat			stat;
 	struct s_phil	*phil;
 	struct s_fork	*fork;
+	sem_t			*sem;
+	pid_t			*p_id;
 }	t_info;
 
 typedef struct s_fork
 {
-	pthread_mutex_t	*mtx;
+	sem_t	*sem;
 }	t_fork;
 
 typedef	struct s_phil
 {
 	int			id;
-	pthread_t	thd;
 	t_stat		stat;
+	pid_t		p_id;
 	t_info		*info;
 	t_fork		*l_fork;
 	t_fork		*r_fork;
@@ -70,17 +73,12 @@ int			ft_n_arg(int ac);
 int			ft_c_arg(int ac, t_info *info);
 int			ft_atoi(const char *str);
 
-// thread
-void		ft_crt_ths(t_info *info);
-void		ft_crt_th(int i, t_info *info);
-void		*ft_routine(void *arg);
-void		ft_del_th(t_info *info);
+// semaphore
+void		ft_crt_sem(t_info *info);
 
-// mutex
-void		ft_crt_mts(t_info *info);
-void		ft_get_fork(t_phil *phil);
-void		ft_rel_fork(t_phil *phil);
-void		ft_del_mtx(t_info *info);
+// process
+void		ft_crt_pids(t_info *info);
+void		ft_crt_pid(int i, t_info *info);
 
 // time
 long long	ft_cur_time(void);

@@ -49,8 +49,8 @@ left fork and right fork is mutax lock
 
 algorithm
 1. start
-2. declare and initialize thread variables (philosopher)
-3. declare and initialize mutax variables (fork)
+2. declare and initialize mutax variables (fork)
+3. declare and initialize thread variables (philosopher)
 4. create the threads representing philosopher
 5. wait until thread finish execution stop
 
@@ -128,6 +128,22 @@ function
 4. int sem_close(sem_t *sem) - close the semaphore
 5. int sem_unlink(const char *name) - when all process have finished using the semaphore, it can removed
 				from system using sem_unlink().
+6. pid_t fork(void) - create a child process
+7. int kill(pid_t pid, int sig) - send signal to a process.
+8. pid_t waitpid(pid_t pid, int *stat_loc, int options) - wait for a child process to stop
 
+other function
+1. semctl();
+2. semget();
 
+algorithms
+1. create fork using semaphore based on philo number by sem_open()
+2. create philo using pid by fork()
+3. delete philo using waitpid()
+4. delete fork using sem_close() and sem_unlink()
 
+algorithms for semaphore
+1. start
+2. fork lock using sem_wait
+3. philo eat
+4. fork unlock using sem_post
