@@ -111,13 +111,14 @@ start -> parse input -> create mutex fork (pthread_mutex_init)
 fork is representing with semaphore
 a philosopher try to grab fork by wait() on that semaphore
 a philosopher release fork by signal() on that semaphore
-semaphore fork[5]
-semaphore initialize to 1 mean free
-semaphore initialize to 0 mean not free
-A semaphore is an integer whose value is never allowed to fall
-below zero.  Two operations can be performed on semaphores:
-increment the semaphore value by one (sem_post(3)); and decrement
-the semaphore value by one (sem_wait(3)).  If the value of a
+* semaphore fork[5]
+* semaphore initialize to 1 mean free
+* semaphore initialize to 0 mean not free
+* A semaphore is an integer whose value is never allowed to fall below zero.  Two operations can be performed on semaphores:
+
+- increment the semaphore value by one (sem_post(3)); and decrement
+the semaphore value by one (sem_wait(3)).
+- If the value of a
 semaphore is currently zero, then a sem_wait(3) operation will
 block until the value becomes greater than zero.
 
