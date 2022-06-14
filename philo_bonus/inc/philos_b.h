@@ -19,6 +19,7 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <semaphore.h>
+# include <signal.h>
 
 # define RED "\033[0;31m"
 # define GRN "\e[0;32m"
@@ -75,10 +76,16 @@ int			ft_atoi(const char *str);
 
 // semaphore
 void		ft_crt_sem(t_info *info);
+void		ft_get_fork(t_phil *phil, t_info *info);
+void		ft_rel_fork(t_phil *phil, t_info *info);
+void		ft_del_sem(t_info *info);
+
 
 // process
 void		ft_crt_pids(t_info *info);
-void		ft_crt_pid(int i, t_info *info);
+void		ft_crt_phil(int i, t_info *info);
+void		ft_routine(void *arg);
+void		ft_del_pid(t_info *info);
 
 // time
 long long	ft_cur_time(void);
