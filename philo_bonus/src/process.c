@@ -6,42 +6,55 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:16:57 by steh              #+#    #+#             */
-/*   Updated: 2022/06/14 21:52:24 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/15 22:38:57 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philos_b.h"
 
+// void	ft_crt_pids(t_info *info, sem_t *fork)
 void	ft_crt_pids(t_info *info)
 {
-	int	i;
-	pid_t	pid;
+	int		i;
 
 	i = -1;
-	info->phil = malloc(sizeof(t_phil) * info->n_phi);
 	info->p_id = malloc(sizeof(pid_t) * info->n_phi);
 	while (++i < info->n_phi)
 	{
-		pid = fork();
-		if (pid == 0)
-			info->p_id[i] = pid;
-		ft_crt_phil(i, info);
+		info->p_id[i] = ft_crt_phil(i, info);
+		if (info->p_id[i] < 0)
+		{
+			while (--i >= 0)
+			{
+				kill(info->p_id[i], SIGKILL);
+				printf("Error create process\n");
+				exit(EXIT_FAILURE);
+			}
+		}
 	}
 }
 
-void	ft_crt_phil(int i, t_info *info)
+// pid_t	ft_crt_phil(int i, t_info *info, sem_t *sem)
+pid_t	ft_crt_phil(int i, t_info *info)
 {
-	t_phil	*phil;
-	
-	phil = info->phil;
-	phil[i].stat = THK;
-	phil[i].p_id = info->p_id[i];
-	phil[i].l_eat = 0;
-	phil[i].l_slp = 0;
-	phil[i].c_eat = info->c_eat;
-	phil[i].info = info;
-	phil[i].info->stat = THK;
-	ft_routine(&phil[i]);
+	t_phil	phil;
+	pid_t	pid;
+
+	pid = fork();
+	if (pid != 0)
+		return (pid);
+	else
+		phil.p_id = pid;
+	phil.id = i;
+	phil.stat = THK;
+	phil.l_eat = 0;
+	phil.l_slp = 0;
+	phil.c_eat = info->c_eat;
+	phil.info = info;
+	phil.sem = info->sem;
+	// phil.sem = sem;
+	phil.info->stat = THK;
+	ft_routine(&phil);
 	exit(EXIT_SUCCESS);
 }
 
@@ -51,7 +64,7 @@ void	ft_routine(void *arg)
 	t_phil		*phil;
 
 	phil = (t_phil *) arg;
-	while (phil->info->stat != DIE && phil->c_eat != 0)
+	while (phil->c_eat != 0)
 	{
 		time = ft_cur_time();
 		if (time > phil->l_eat + phil->info->t_die)
@@ -67,25 +80,34 @@ void	ft_routine(void *arg)
 		else
 			usleep(50);
 	}
+	sem_close(phil->sem);
 	return ;
+}
+
+void	ft_kill_pid(t_info *info)
+{
+	int	i;
+
+	i = -1;
+	while (++i < info->n_phi)
+	{
+		kill(info->p_id[i], SIGKILL);
+	}
 }
 
 void	ft_del_pid(t_info *info)
 {
 	int	i;
-	// int	status;
+	int	stat;
 
 	i = -1;
 	while (++i < info->n_phi)
 	{
-		waitpid(info->p_id[i], NULL, 0);
-		// printf("status: %d\n", status);
-		if (kill(info->p_id[i], SIGKILL) != 0)
-			printf("Error eliminate pid");
-	// 	if (WIFEXITED(status) && WEXITSTATUS(status) == EXIT_FAILURE)
-	// 	{
-	// 		ft_philo_kill_all(phil_no, pid);
-	// 		return ;
-	// 	}
+		waitpid(-1, &stat, 0);
+		if (WIFEXITED(stat) && WEXITSTATUS(stat))
+		{
+			ft_kill_pid(info);
+			return ;
+		}
 	}
 }

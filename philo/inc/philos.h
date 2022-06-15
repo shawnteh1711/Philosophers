@@ -85,6 +85,7 @@ void		ft_del_mtx(t_info *info);
 // time
 long long	ft_cur_time(void);
 long long	ft_t_stamp(long long msec);
+long long	roundown(long long msec, t_info *info);
 void		my_slp(t_phil *phil, long duration, char *s); //not using
 
 // task

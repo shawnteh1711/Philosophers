@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 13:20:49 by steh              #+#    #+#             */
-/*   Updated: 2022/06/14 15:33:53 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/15 20:08:59 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ void	ft_eat(t_phil *phil, long long time)
 			&& time <= phil->l_eat + 3 * info->t_eat)
 			return ;
 	}
-	// ft_get_fork(phil);
-	ft_get_fork(phil, info);
+	ft_get_fork(phil);
 	printf(GRN "%lld %d is eating\n" RST, time / 1000, phil->id);
 	phil->stat = EAT;
 	phil->l_eat = ft_cur_time();
 	if (phil->c_eat > 0)
 		phil->c_eat--;
-	// ft_rel_fork(phil);
-	ft_rel_fork(phil, info);
+	// printf("phil: %d \tc_eat: %d\n", phil->id, phil->c_eat);
+	// printf("c_eat: %d\n", phil->c_eat);
+	ft_rel_fork(phil);
 }
 
 void	ft_slp(t_phil *phil, long long time)
@@ -65,5 +65,6 @@ void	ft_die(t_phil *phil, long long time)
 	phil->stat = DIE;
 	phil->info->stat = DIE;
 	printf(RED "%lld %d die\n" RST, time / 1000, phil->id);
+	sem_close(phil->sem);
+	exit(EXIT_FAILURE);
 }
-   

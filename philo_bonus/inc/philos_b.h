@@ -61,8 +61,9 @@ typedef	struct s_phil
 	t_stat		stat;
 	pid_t		p_id;
 	t_info		*info;
-	t_fork		*l_fork;
-	t_fork		*r_fork;
+	// t_fork		*l_fork;
+	// t_fork		*r_fork;
+	sem_t		*sem;
 	int			c_eat;
 	long long	l_eat;
 	long long	l_slp;
@@ -76,14 +77,18 @@ int			ft_atoi(const char *str);
 
 // semaphore
 void		ft_crt_sem(t_info *info);
-void		ft_get_fork(t_phil *phil, t_info *info);
-void		ft_rel_fork(t_phil *phil, t_info *info);
+// sem_t		*ft_crt_sem(t_info *info);
+void		ft_get_fork(t_phil *phil);
+void		ft_rel_fork(t_phil *phil);
 void		ft_del_sem(t_info *info);
+// void		ft_del_sem(t_info *info, sem_t *fork);
 
 
 // process
 void		ft_crt_pids(t_info *info);
-void		ft_crt_phil(int i, t_info *info);
+// void		ft_crt_pids(t_info *info, sem_t *fork);
+pid_t		ft_crt_phil(int i, t_info *info);
+// pid_t		ft_crt_phil(int i, t_info *info, sem_t *fork);
 void		ft_routine(void *arg);
 void		ft_del_pid(t_info *info);
 

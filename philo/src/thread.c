@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:04:35 by steh              #+#    #+#             */
-/*   Updated: 2022/06/12 22:49:19 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/15 20:13:23 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	*ft_routine(void *arg)
 	t_phil		*phil;
 
 	phil = (t_phil *) arg;
-	while (phil->info->stat != DIE && phil->c_eat != 0)
+	while (phil->c_eat != 0)
 	{
 		time = ft_cur_time();
 		if (time > phil->l_eat + phil->info->t_die)
