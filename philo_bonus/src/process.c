@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/13 21:16:57 by steh              #+#    #+#             */
-/*   Updated: 2022/06/15 22:38:57 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/16 19:00:52 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ pid_t	ft_crt_phil(int i, t_info *info)
 	phil.c_eat = info->c_eat;
 	phil.info = info;
 	phil.sem = info->sem;
-	// phil.sem = sem;
 	phil.info->stat = THK;
 	ft_routine(&phil);
 	exit(EXIT_SUCCESS);

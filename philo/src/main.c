@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 12:05:32 by steh              #+#    #+#             */
-/*   Updated: 2022/06/12 23:06:07 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/16 19:00:11 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,5 @@ int	main(int ac, char **av)
 	ft_crt_ths(&info);
 	ft_del_th(&info);
 	ft_del_mtx(&info);
-	// system("leaks philo");
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: steh <steh@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 13:20:49 by steh              #+#    #+#             */
-/*   Updated: 2022/06/15 11:52:14 by steh             ###   ########.fr       */
+/*   Updated: 2022/06/16 21:40:05 by steh             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void	ft_eat(t_phil *phil, long long time)
 	printf(GRN "%lld %d is eating\n" RST, time / 1000, phil->id);
 	phil->stat = EAT;
 	phil->l_eat = ft_cur_time();
-	if (phil->c_eat > 0)
-		phil->c_eat--;
 	ft_rel_fork(phil);
 }
 
 void	ft_slp(t_phil *phil, long long time)
 {
+	if (phil->c_eat > 0)
+		phil->c_eat--;
 	phil->stat = SLP;
 	printf(BLU "%lld %d is sleeping\n" RST, time / 1000, phil->id);
 	phil->l_slp = time;

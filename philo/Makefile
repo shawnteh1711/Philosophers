@@ -6,13 +6,13 @@
 #    By: steh <steh@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/31 12:49:52 by steh              #+#    #+#              #
-#    Updated: 2022/06/13 15:55:07 by steh             ###   ########.fr        #
+#    Updated: 2022/06/16 16:30:47 by steh             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # implicit variables or nonchanging variables
 CC				:= gcc
-CFLAGS			:= -Wall -Werror -Wextra -fsanitize=thread
+CFLAGS			:= -Wall -Werror -Wextra
 SRC_DIR			:= src
 OBJ_DIR			:= obj
 SRC				:= $(wildcard $(SRC_DIR)/*.c)
